@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shine Looks Loyalty System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --accent: #38bdf8;
+            --background: #f1f5f9;
+            --white: #fff;
+            --shadow: 0 4px 24px rgba(37,99,235,0.08);
+        }
+        html, body {
+            background: var(--background);
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--primary-dark);
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--white);
+            text-align: center;
+            padding: 2.5rem 0 1.5rem 0;
+            margin-bottom: 0.5rem;
+            box-shadow: var(--shadow);
+            border-radius: 0 0 24px 24px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        main {
+            max-width: 480px;
+            margin: 2.5rem auto 2rem auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        label {
+            font-weight: 500;
+            color: var(--primary-dark);
+            margin-bottom: 0.3rem;
+        }
+        input[type="tel"], input[type="text"], input[type="password"], input[type="number"], input[type="email"] {
+            padding: 0.85rem;
+            border: 1.5px solid var(--primary-light);
+            border-radius: 8px;
+            font-size: 1.08rem;
+            transition: border 0.2s, box-shadow 0.2s;
+            background: #f8fafc;
+        }
+        input[type="tel"]:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus, input[type="email"]:focus {
+            border: 2px solid var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        button[type="submit"], #redeem-btn, #share-btn, #pay-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 0.5rem;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+        }
+        button[type="submit"]:hover, #redeem-btn:hover, #share-btn:hover, #pay-btn:hover {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transform: translateY(-2px) scale(1.04);
+        }
+        #message, #login-message, #register-message {
+            min-height: 1.5em;
+            margin-bottom: 1em;
+            font-weight: bold;
+            text-align: center;
+            color: var(--primary-dark);
+        }
+        .star-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #60a5fa 0%, #2563eb 100%);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.3em 1em;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin: 0 0.3em;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+            vertical-align: middle;
+        }
+        .shilling-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #38bdf8 0%, #1e40af 100%);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.3em 1em;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin: 0 0.3em;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+            vertical-align: middle;
+        }
+        .info-tip {
+            background: #e0e7ff;
+            color: #2563eb;
+            border-radius: 8px;
+            padding: 0.7em 1em;
+            margin-bottom: 1em;
+            font-size: 1em;
+            text-align: center;
+        }
+        .pay-section {
+            margin-top: 1.5em;
+            text-align: center;
+        }
+        .pay-section input[type="number"] {
+            width: 80px;
+            padding: 0.5em;
+            border-radius: 6px;
+            border: 1px solid var(--primary-light);
+            margin-right: 0.5em;
+            font-size: 1em;
+        }
+        .pay-section label {
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+        .pay-section .pay-info {
+            margin-top: 0.7em;
+            color: var(--primary-dark);
+            font-size: 1em;
+        }
+        .welcome-banner {
+            background: linear-gradient(90deg, var(--primary-light), var(--primary));
+            color: #fff;
+            border-radius: 16px;
+            padding: 1.5em 1em;
+            text-align: center;
+            margin-bottom: 2em;
+            font-size: 1.15em;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+        }
+        .switch-link {
+            color: var(--primary);
+            background: none;
+            border: none;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 0.5em;
+        }
+        nav {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.2rem 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+        }
+        nav button, nav a {
+            background: linear-gradient(90deg, var(--primary-light), var(--primary));
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1.08rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+        }
+        nav button:hover, nav a:hover {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: translateY(-2px) scale(1.04);
+        }
+        footer {
+            text-align: center;
+            padding: 1.2rem 0 0.7rem 0;
+            color: var(--primary-dark);
+            background: transparent;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 600px) {
+            main {
+                padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+            }
+            nav {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                padding: 0.7rem 0.2rem;
+            }
+            nav button, nav a {
+                padding: 0.5rem 0.7rem;
+                font-size: 0.98rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shine Looks Loyalty System</h1>
+    </header>
+    <main>
+        <!-- Login Section -->
+        <section id="login-section" class="section active">
+            <div class="welcome-banner">
+                <h2>Welcome to Shine Looks!</h2>
+                <p>Join our loyalty program and start earning stars for every visit.<br>
+                <span class="star-badge">10 Stars</span> = <span class="shilling-badge">1 Ksh</span>.<br>
+                Redeem your stars for cash and pay for services at Shine Looks!</p>
+            </div>
+            <form id="login-form" autocomplete="off">
+                <label for="login-phone">Phone Number:</label>
+                <input type="tel" id="login-phone" placeholder="Enter your phone number" required pattern="\d{7,15}">
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" placeholder="Enter your password" required>
+                <button type="submit">Login</button>
+                <div id="login-message"></div>
+            </form>
+            <div style="text-align:center;">
+                <button class="switch-link" onclick="showRegister()">Don't have an account? Register</button>
+            </div>
+        </section>
+        <!-- Register Section -->
+        <section id="register-section" class="section">
+            <div class="welcome-banner">
+                <h2>Create Your Shine Looks Account</h2>
+                <p>Register to start tracking your visits and earning rewards!</p>
+            </div>
+            <form id="register-form" autocomplete="off">
+                <label for="register-name">Full Name:</label>
+                <input type="text" id="register-name" placeholder="Enter your name" required>
+                <label for="register-phone">Phone Number:</label>
+                <input type="tel" id="register-phone" placeholder="Enter your phone number" required pattern="\d{7,15}">
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" placeholder="Create a password" required>
+                <button type="submit">Register</button>
+                <div id="register-message"></div>
+            </form>
+            <div style="text-align:center;">
+                <button class="switch-link" onclick="showLogin()">Already have an account? Login</button>
+            </div>
+        </section>
+        <!-- App Section -->
+        <section id="app-section" class="section">
+            <nav>
+                <button type="button" onclick="showAppSection('visit-tracking')">Track Visits</button>
+                <button type="button" onclick="showAppSection('stats')">My Stats</button>
+                <button type="button" onclick="showAppSection('rewards')">Redeem & Pay</button>
+                <button type="button" onclick="showAppSection('invite')">Invite Friends</button>
+                <button type="button" onclick="logout()" style="background: #e11d48; margin-left:1em;">Logout</button>
+            </nav>
+            <div id="app-main">
+                <section id="visit-tracking" class="section active">
+                    <h2>Track Your Visits</h2>
+                    <div class="info-tip">
+                        Every visit earns you <span class="star-badge">10 Stars</span>. <br>
+                        <span class="star-badge">10 Stars</span> = <span class="shilling-badge">1 Ksh</span>. <br>
+                        Redeem your stars for cash whenever you want!
+                    </div>
+                    <div id="visit-stats"></div>
+                    <form id="visit-form" autocomplete="off">
+                        <label for="phone-number">Phone Number:</label>
+                        <input type="tel" id="phone-number" readonly>
+                        <button type="submit">Submit Visit</button>
+                    </form>
+                    <div id="message"></div>
+                </section>
+                <section id="stats" class="section">
+                    <h2>My Stats</h2>
+                    <div id="stats-content" class="reward-item"></div>
+                </section>
+                <section id="rewards" class="section">
+                    <h2>Redeem Points & Pay</h2>
+                    <div id="reward-list"></div>
+                    <div class="pay-section" id="pay-section"></div>
+                </section>
+                <section id="invite" class="section">
+                    <h2>Invite Friends</h2>
+                    <p>Share this page with your friends and earn more rewards!</p>
+                    <button id="share-btn">Share Page</button>
+                    <div id="share-message"></div>
+                </section>
+            </div>
+        </section>
+        <section id="rewards" class="section">
+    <h2>Redeem Points & Pay</h2>
+    <div id="reward-list"></div>
+    <div class="pay-section" id="pay-section"></div>
+</section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Shine Looks</p>
+    </footer>
+    <script>
+        // --- Simple Auth Logic ---
+        function showLogin() {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('login-section').classList.add('active');
+        }
+        function showRegister() {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('register-section').classList.add('active');
+        }
+        function showApp() {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('app-section').classList.add('active');
+            // Set phone number in app
+            const user = JSON.parse(localStorage.getItem('shine_user'));
+            document.getElementById('phone-number').value = user.phone;
+            showVisitStats(user.phone);
+            updateStatsSection(user.phone);
+            updateRewards(user.phone);
+            updatePaySection(user.phone);
+        }
+        function logout() {
+            localStorage.removeItem('shine_user');
+            showLogin();
+        }
+        // Registration
+        document.getElementById('register-form').onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value.trim();
+            const phone = document.getElementById('register-phone').value.trim();
+            const password = document.getElementById('register-password').value;
+            const msg = document.getElementById('register-message');
+            if (!/^\d{7,15}$/.test(phone)) {
+                msg.textContent = "Enter a valid phone number.";
+                msg.style.color = "#e74c3c";
+                return;
+            }
+            if (password.length < 4) {
+                msg.textContent = "Password should be at least 4 characters.";
+                msg.style.color = "#e74c3c";
+                return;
+            }
+            let users = JSON.parse(localStorage.getItem('shine_users') || '{}');
+            if (users[phone]) {
+                msg.textContent = "Account already exists. Please login.";
+                msg.style.color = "#e74c3c";
+                return;
+            }
+            users[phone] = { name, phone, password };
+            localStorage.setItem('shine_users', JSON.stringify(users));
+            msg.textContent = "Account created! Please login.";
+            msg.style.color = "#27ae60";
+            setTimeout(showLogin, 1200);
+        };
+        // Login
+        document.getElementById('login-form').onsubmit = function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('login-phone').value.trim();
+            const password = document.getElementById('login-password').value;
+            const msg = document.getElementById('login-message');
+            let users = JSON.parse(localStorage.getItem('shine_users') || '{}');
+            if (!users[phone] || users[phone].password !== password) {
+                msg.textContent = "Invalid phone or password.";
+                msg.style.color = "#e74c3c";
+                return;
+            }
+            localStorage.setItem('shine_user', JSON.stringify(users[phone]));
+            msg.textContent = "Login successful! Redirecting...";
+            msg.style.color = "#27ae60";
+            setTimeout(showApp, 800);
+        };
+        // App navigation
+        function showAppSection(id) {
+            document.querySelectorAll('#app-main .section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const user = JSON.parse(localStorage.getItem('shine_user'));
+            if (id === 'rewards') {
+                updateRewards(user.phone);
+                updatePaySection(user.phone);
+            }
+            if (id === 'stats') {
+                updateStatsSection(user.phone);
+            }
+            if (id === 'visit-tracking') {
+                showVisitStats(user.phone);
+            }
+        }
+        // Share logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareBtn = document.getElementById('share-btn');
+            if (shareBtn) {
+                shareBtn.onclick = function() {
+                    const shareData = {
+                        title: 'Shine Looks Loyalty System',
+                        text: 'Join me and earn rewards at Shine Looks!',
+                        url: window.location.href
+                    };
+                    if (navigator.share) {
+                        navigator.share(shareData).then(() => {
+                            document.getElementById('share-message').textContent = 'Thanks for sharing!';
+                        }).catch(() => {
+                            document.getElementById('share-message').textContent = 'Sharing cancelled.';
+                        });
+                    } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        document.getElementById('share-message').textContent = 'Link copied! Share it with your friends.';
+                    }
+                };
+            }
+        });
+        // Loyalty logic
+        const STARS_PER_VISIT = 10;
+        const STARS_PER_SHILLING = 10; // 10 stars = 1 Ksh
+
+        function getCustomer(phone) {
+            const data = localStorage.getItem('customers');
+            const customers = data ? JSON.parse(data) : {};
+            return customers[phone] || { visits: 0, stars: 0, redeemedStars: 0 };
+        }
+        function saveCustomer(phone, customer) {
+            const data = localStorage.getItem('customers');
+            const customers = data ? JSON.parse(data) : {};
+            customers[phone] = customer;
+            localStorage.setItem('customers', JSON.stringify(customers));
+        }
+        function showMessage(msg, type = 'info') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = msg;
+            messageDiv.style.color = type === 'success' ? '#27ae60' : (type === 'error' ? '#e74c3c' : '#2563eb');
+            messageDiv.style.opacity = 1;
+            setTimeout(() => {
+                messageDiv.style.opacity = 0.7;
+            }, 2500);
+        }
+        function updateRewards(phone) {
+            const rewardList = document.getElementById('reward-list');
+            const customer = getCustomer(phone);
+            rewardList.innerHTML = '';
+            const availableStars = customer.stars - customer.redeemedStars;
+            const shillings = Math.floor(availableStars / STARS_PER_SHILLING);
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'reward-item';
+            infoDiv.innerHTML = `
+                <span class="star-badge">${availableStars} Stars</span> available<br>
+                <span class="shilling-badge">${shillings} Ksh</span> can be redeemed<br>
+                <strong>Total Visits:</strong> ${customer.visits}
+            `;
+            rewardList.appendChild(infoDiv);
+            if (shillings > 0) {
+                const redeemDiv = document.createElement('div');
+                redeemDiv.className = 'reward-item';
+                redeemDiv.innerHTML = `
+                    <button id="redeem-btn">Redeem ${shillings} Ksh (${shillings * STARS_PER_SHILLING} Stars)</button>
+                    <div style="font-size:0.95em;margin-top:0.5em;">You can choose to redeem your stars on any visit.</div>
+                `;
+                rewardList.appendChild(redeemDiv);
+                document.getElementById('redeem-btn').onclick = function() {
+                    customer.redeemedStars += shillings * STARS_PER_SHILLING;
+                    saveCustomer(phone, customer);
+                    showMessage(`You have redeemed ${shillings} Ksh!`, 'success');
+                    updateRewards(phone);
+                    updatePaySection(phone);
+                    updateStatsSection(phone);
+                    showVisitStats(phone);
+                };
+            } else {
+                const waitDiv = document.createElement('div');
+                waitDiv.className = 'reward-item';
+                waitDiv.textContent = 'Earn more stars to redeem for cash!';
+                rewardList.appendChild(waitDiv);
+            }
+        }
+        function updateStatsSection(phone) {
+            const statsDiv = document.getElementById('stats-content');
+            if (!phone || !/^\d{7,15}$/.test(phone)) {
+                statsDiv.innerHTML = 'Enter your phone number in "Track Visits" to see your stats.';
+                return;
+            }
+            const customer = getCustomer(phone);
+            const availableStars = customer.stars - customer.redeemedStars;
+            statsDiv.innerHTML = `
+                <strong>Total Visits:</strong> ${customer.visits}<br>
+                <strong>Total Points (Stars):</strong> ${customer.stars}<br>
+                <strong>Points Redeemed:</strong> ${customer.redeemedStars}<br>
+                <strong>Available Points:</strong> ${availableStars}<br>
+                <strong>Ksh Available:</strong> ${Math.floor(availableStars / 10)}
+            `;
+        }
+        function updatePaySection(phone) {
+            const customer = getCustomer(phone);
+            const availableStars = customer.stars - customer.redeemedStars;
+            const maxKsh = Math.floor(availableStars / 10);
+            const payDiv = document.getElementById('pay-section');
+            if (maxKsh > 0) {
+                payDiv.innerHTML = `
+                    <form id="pay-form" autocomplete="off">
+                        <label for="pay-amount">Enter amount to pay with stars (Ksh):</label>
+                        <input type="number" id="pay-amount" min="1" max="${maxKsh}" value="${maxKsh}">
+                        <button type="submit" id="pay-btn">Pay with Stars</button>
+                        <div class="pay-info">You can pay up to <span class="shilling-badge">${maxKsh} Ksh</span> using your stars.</div>
+                    </form>
+                    <div id="pay-message"></div>
+                `;
+                document.getElementById('pay-form').onsubmit = function(e) {
+                    e.preventDefault();
+                    const amount = parseInt(document.getElementById('pay-amount').value, 10);
+                    if (isNaN(amount) || amount < 1 || amount > maxKsh) {
+                        document.getElementById('pay-message').textContent = 'Enter a valid amount to pay.';
+                        document.getElementById('pay-message').style.color = '#e74c3c';
+                        return;
+                    }
+                    customer.redeemedStars += amount * 10;
+                    saveCustomer(phone, customer);
+                    document.getElementById('pay-message').textContent = `You have paid ${amount} Ksh using your stars!`;
+                    document.getElementById('pay-message').style.color = '#27ae60';
+                    updateRewards(phone);
+                    updatePaySection(phone);
+                    updateStatsSection(phone);
+                    showVisitStats(phone);
+                };
+            } else {
+                payDiv.innerHTML = `<div class="info-tip">You need at least <span class="star-badge">10 Stars</span> to pay for a service.</div>`;
+            }
+        }
+        function showVisitStats(phone) {
+            const statsDiv = document.getElementById('visit-stats');
+            const customer = getCustomer(phone);
+            const availableStars = customer.stars - customer.redeemedStars;
+            statsDiv.innerHTML = `
+                <div class="reward-item">
+                    <strong>Visits so far:</strong> ${customer.visits}<br>
+                    <strong>Points (Stars) earned:</strong> ${customer.stars}<br>
+                    <strong>Points available to redeem:</strong> ${availableStars}
+                </div>
+            `;
+        }
+        // Visit form logic
+        document.addEventListener('DOMContentLoaded', function() {
+            // If logged in, show app
+            if (localStorage.getItem('shine_user')) {
+                showApp();
+            } else {
+                showLogin();
+            }
+            // Visit form
+            const visitForm = document.getElementById('visit-form');
+            if (visitForm) {
+                visitForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const phone = document.getElementById('phone-number').value.trim();
+                    if (!/^\d{7,15}$/.test(phone)) return;
+                    let customer = getCustomer(phone);
+                    customer.visits += 1;
+                    customer.stars += STARS_PER_VISIT;
+                    saveCustomer(phone, customer);
+                    showMessage(`Visit recorded! You earned <span class="star-badge">10 Stars</span>.`, 'success');
+                    showVisitStats(phone);
+                    updateStatsSection(phone);
+                    updateRewards(phone);
+                    updatePaySection(phone);
+                    localStorage.setItem('lastPhone', phone);
+                });
+            }
+        });
+            function updateRewards(phone) {
+        const rewardList = document.getElementById('reward-list');
+        const customer = getCustomer(phone);
+        rewardList.innerHTML = '';
+        const availableStars = customer.stars - customer.redeemedStars;
+        const shillings = Math.floor(availableStars / STARS_PER_SHILLING);
+
+        // Show available stars and Ksh equivalent
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'reward-item';
+        infoDiv.innerHTML = `
+            <span class="star-badge">${availableStars} Stars</span> available<br>
+            <span class="shilling-badge">${shillings} Ksh</span> can be redeemed<br>
+            <strong>Total Visits:</strong> ${customer.visits}
+        `;
+        rewardList.appendChild(infoDiv);
+
+        // Redeem stars form
+        if (shillings > 0) {
+            const redeemDiv = document.createElement('div');
+            redeemDiv.className = 'reward-item';
+            redeemDiv.innerHTML = `
+                <form id="redeem-form" autocomplete="off" style="margin-bottom:0;">
+                    <label for="redeem-amount">Redeem amount (Ksh):</label>
+                    <input type="number" id="redeem-amount" min="1" max="${shillings}" value="${shillings}">
+                    <button type="submit" id="redeem-btn">Redeem</button>
+                </form>
+                <div id="redeem-message" style="margin-top:0.5em;"></div>
+                <div style="font-size:0.95em;margin-top:0.5em;">You can redeem your stars for cash at any time.</div>
+            `;
+            rewardList.appendChild(redeemDiv);
+
+            document.getElementById('redeem-form').onsubmit = function(e) {
+                e.preventDefault();
+                const amount = parseInt(document.getElementById('redeem-amount').value, 10);
+                if (isNaN(amount) || amount < 1 || amount > shillings) {
+                    document.getElementById('redeem-message').textContent = 'Enter a valid amount to redeem.';
+                    document.getElementById('redeem-message').style.color = '#e74c3c';
+                    return;
+                }
+                customer.redeemedStars += amount * STARS_PER_SHILLING;
+                saveCustomer(phone, customer);
+                document.getElementById('redeem-message').textContent = `You have redeemed ${amount} Ksh (${amount * STARS_PER_SHILLING} stars)!`;
+                document.getElementById('redeem-message').style.color = '#27ae60';
+                updateRewards(phone);
+                updatePaySection(phone);
+                updateStatsSection(phone);
+                showVisitStats(phone);
+            };
+        } else {
+            const waitDiv = document.createElement('div');
+            waitDiv.className = 'reward-item';
+            waitDiv.textContent = 'Earn more stars to redeem for cash!';
+            rewardList.appendChild(waitDiv);
+        }
+    }
+    </script>
+</body>
+</html>

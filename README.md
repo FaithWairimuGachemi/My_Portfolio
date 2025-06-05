@@ -2,6 +2,7 @@
 # Faith Wairimu - Portfolio Website
 
 A modern, responsive portfolio website with an animated background, typewriter effects, and a full-stack backend for contact form functionality.
+https://faithwportfolio.netlify.app/
 
 ## 🌟 Features
 

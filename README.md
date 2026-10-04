@@ -4,7 +4,7 @@
 A modern, responsive portfolio website with an animated background, typewriter effects, and a full-stack backend for contact form functionality.
 https://faithwportfolio.netlify.app/
 
-## 🌟 Features
+## Features
 
 ### Frontend
 - **Animated Background**: Sky blue gradient with rotating moons, twinkling stars, and geometric shapes
@@ -19,7 +19,7 @@ https://faithwportfolio.netlify.app/
 - **Security**: Rate limiting, CORS protection, and input validation
 - **Email Service**: Automated email responses using Nodemailer
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -71,7 +71,7 @@ https://faithwportfolio.netlify.app/
    http://localhost:3000
    ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 My_Portfolio/
@@ -85,7 +85,7 @@ My_Portfolio/
 └── README.md              # This file
 ```
 
-## 🔧 API Endpoints
+## API Endpoints
 
 - `GET /` - Serve the portfolio website
 - `GET /api/stats` - Get portfolio statistics
@@ -94,7 +94,7 @@ My_Portfolio/
 - `POST /api/contact` - Submit contact form
 - `GET /api/health` - Health check
 
-## 📧 Contact Form Setup
+## Contact Form Setup
 
 The contact form sends emails using Gmail SMTP. To set it up:
 
@@ -104,7 +104,7 @@ The contact form sends emails using Gmail SMTP. To set it up:
 4. Use the App Password in `EMAIL_PASS`
 5. Set your contact email in `CONTACT_EMAIL`
 
-## 🎨 Customization
+## Customization
 
 ### Adding Your CV
 1. Save your CV as `Faith_Wairimu_CV.pdf`
@@ -122,7 +122,7 @@ The contact form sends emails using Gmail SMTP. To set it up:
 - **Animations**: Adjust animation timings and effects
 - **Layout**: Customize responsive breakpoints
 
-## 🚀 Deployment
+## Deployment
 
 ### Local Development
 ```bash
@@ -144,7 +144,7 @@ The app is ready to deploy to:
 
 Make sure to set environment variables in your hosting platform.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Frontend
 - HTML5
@@ -160,7 +160,7 @@ Make sure to set environment variables in your hosting platform.
 - Helmet (security)
 - Express Rate Limit (rate limiting)
 
-## 📱 Browser Support
+## Browser Support
 
 - Chrome (latest)
 - Firefox (latest)
@@ -168,16 +168,16 @@ Make sure to set environment variables in your hosting platform.
 - Edge (latest)
 - Mobile browsers
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to fork this project and customize it for your own portfolio!
 
-## 📄 License
+## License
 
 MIT License - feel free to use this code for your own portfolio.
 
 ---
 
-**Built with ❤️ by Faith Wairimu**
+**Author: Faith Wairimu**
 
 
